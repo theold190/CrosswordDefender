@@ -66,7 +66,8 @@ Crafty.c("Game", {
             setTimeout(game._startNewWave, 2000);
             game._waveNumber++;
         } else {
-            alert("Victory!!!");
+            var msg = "Victory!!! " + game._player._damage + " damage taken";
+            alert(msg);
         }
     }
 });

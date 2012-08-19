@@ -1,6 +1,7 @@
 Crafty.c("Player", {
     init: function() {
         this._enemies = [];
+        this._damage = 0;
         this.bind('KeyDown', function(e) {
             this._parseKeyPress(e.key);
         });
@@ -91,12 +92,15 @@ Crafty.c("Player", {
         }
         return enemiesOnCell;
     },
+    _removeEnemy: function(enemy) {
+        enemy.undraw();
+        Crafty(enemy).destroy();
+    },
     _removeDeadEnemies: function() {
         for (var i=0; i < this._enemies.length; i++) {
             var en = this._enemies[i];
             if (en._isDead()) {
-                en.undraw();
-                Crafty(en).destroy();
+                this._removeEnemy(en);
                 this._enemies.splice(i,1);
                 i--;
             }
@@ -108,8 +112,14 @@ Crafty.c("Player", {
     },
     _onHitDefender: function() {
         var enemies = this._getEnemiesInCell(this._defenderPosition);
+        if (enemies.length === 0) {
+            return;
+        }
         for (var i=0; i < enemies.length; i++) {
             enemies[i]._stop();
+            this._damage += enemies[i]._biteTarget();
+            enemies[i]._die();
         }
+        this._removeDeadEnemies();
     }
 });

@@ -78,6 +78,12 @@ Crafty.c("Enemy", {
         }
         return this;
     },
+    _biteTarget: function() {
+        return this._health;
+    },
+    _die: function() {
+        this._health = 0;
+    },
     _isDead: function() {
         return this._health <= 0;
     }
