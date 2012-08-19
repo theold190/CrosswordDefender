@@ -28,10 +28,27 @@ Crafty.c("Player", {
         return this;
     },
     _placeEnemy: function(enemy) {
-        var x = 0, y = 0;
+        var x = 0, y = 0, axis = 0;
         do {
             x = Crafty.math.randomInt(this._board.x, this._board.w-enemy.w);
             y = Crafty.math.randomInt(this._board.y, this._board.h-enemy.h);
+            // Defines if enemy will spawn on vertical/horizontal edge
+            axis = Crafty.math.randomInt(0,1);
+            if (axis == 0) {
+                // This defines if we spawn enemy from the top or the bottom
+                if(y > (this._board.h-this._board.y)/2) {
+                    y = this._board.h-enemy.h;
+                } else {
+                    y = 0;
+                }
+            } else {
+                // This defines if we spawn enemy from the left or the right
+                if(x > (this._board.w-this._board.x)/2) {
+                    x = this._board.w-enemy.w;
+                } else {
+                    x = 0;
+                }
+            }
         } while (this._defenderPosition.intersect(x, y, enemy.w, enemy.w));
         enemy._setPosition(x,y);
     },
