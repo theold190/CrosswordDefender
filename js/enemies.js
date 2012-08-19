@@ -1,22 +1,38 @@
 var ENEMY_WIDTH = CELL_WIDTH/4,
     ENEMY_HEIGHT = CELL_HEIGHT/4;
 
-var ENEMY_TYPE_BASIC = 1;
-
-var ENEMY_COLOR_BASIC = "#ff0000";
+var ENEMY_TYPE_BASIC = 1,
+    ENEMY_TYPE_HEAVY = 2,
+    ENEMY_TYPE_FAST = 3;
 
 Crafty.c("Enemy", {
     init: function() {
         this.addComponent("2D, DOM, Color, Tween");
         this.attr({w:ENEMY_WIDTH, h:ENEMY_HEIGHT});
-        this._setType(ENEMY_TYPE_BASIC);
+
+        var enemyType = Crafty.math.randomInt(0, 100);
+        if (enemyType < 50) {
+            this._setType(ENEMY_TYPE_BASIC);
+        } else if (enemyType < 80) {
+            this._setType(ENEMY_TYPE_HEAVY);
+        } else {
+            this._setType(ENEMY_TYPE_FAST);
+        }
     },
     _setType: function(type) {
         this._type = type;
         if (this._type == ENEMY_TYPE_BASIC) {
-            this._health = 1;
-            this.color(ENEMY_COLOR_BASIC);
+            this._health = 2;
+            this.color("#ff0000");
             this._speed = 800;
+        } else if (this._type == ENEMY_TYPE_HEAVY) {
+            this._health = 4;
+            this.color("#111111");
+            this._speed = 1600;
+        } else if (this._type == ENEMY_TYPE_FAST) {
+            this._health = 1;
+            this.color("#f0d0d0");
+            this._speed = 400;
         }
         return this;
     },

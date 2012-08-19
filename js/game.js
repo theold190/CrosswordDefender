@@ -8,6 +8,7 @@ var MIN_ENEMIES_PER_SUBWAVE = 2,
 
 var NUMBER_OF_WAVES = 3;
 
+//TODO: Fix it some other, better way
 var CRAFTY_GAME_ID = 0;
 
 Crafty.c("Game", {
@@ -46,7 +47,7 @@ Crafty.c("Game", {
         }
         game._waveEnemiesLeft -= numEnemies;
         game._enemies = game._player._generateEnemies(numEnemies);
-        game._player._start();
+        game._player._startEnemies();
 //        var msg="SubWave ("+numEnemies+"/"+game._waveEnemiesLeft+" enemies)";
 //        alert(msg);
     },

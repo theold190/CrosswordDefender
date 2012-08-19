@@ -32,6 +32,12 @@ Crafty.c("Player", {
             this._enemies.push(enemy);
         }
     },
+    _startEnemies: function() {
+        for (var i=0; i < this._enemies.length; i++) {
+            var en = this._enemies[i];
+            en._start();
+        }
+    },
     _setEnemies: function(enemies) {
         this._enemies = enemies;
         return this;
@@ -98,12 +104,6 @@ Crafty.c("Player", {
         if (this._enemies.length === 0) {
             var game = Crafty(CRAFTY_GAME_ID);
             game._waveIsCompleted();
-        }
-    },
-    _start: function() {
-        for (var i=0; i < this._enemies.length; i++) {
-            var en = this._enemies[i];
-            en._start();
         }
     },
     _onHitDefender: function() {
