@@ -3,7 +3,9 @@ var ENEMY_WIDTH = CELL_WIDTH/4,
 
 var ENEMY_TYPE_BASIC = 1,
     ENEMY_TYPE_HEAVY = 2,
-    ENEMY_TYPE_FAST = 3;
+    ENEMY_TYPE_FAST = 3,
+    ENEMY_TYPE_PSYCHO = 4,
+    ENEMY_TYPE_ULTRAFAST = 5;
 
 Crafty.c("Enemy", {
     init: function() {
@@ -15,8 +17,10 @@ Crafty.c("Enemy", {
             this._setType(ENEMY_TYPE_BASIC);
         } else if (enemyType < 80) {
             this._setType(ENEMY_TYPE_HEAVY);
-        } else {
+        } else if (enemyType < 96) {
             this._setType(ENEMY_TYPE_FAST);
+        } else {
+            this._setType(ENEMY_TYPE_PSYCHO);
         }
     },
     _setType: function(type) {
@@ -33,6 +37,13 @@ Crafty.c("Enemy", {
             this._health = 1;
             this.color("#f0d0d0");
             this._speed = 400;
+        } else if (this._type == ENEMY_TYPE_PSYCHO) {
+            this._health = 2;
+            this.color("#111111");
+            this._speed = 1500;
+        } else if (this._type == ENEMY_TYPE_ULTRAFAST) {
+            this.color("#f0f0f0");
+            this._speed = 200;
         }
         return this;
     },
@@ -59,6 +70,11 @@ Crafty.c("Enemy", {
     },
     _hit: function() {
         this._health--;
+        if (this._type == ENEMY_TYPE_PSYCHO) {
+            this._stop();
+            this._setType(ENEMY_TYPE_ULTRAFAST);
+            this._start();
+        }
         return this;
     },
     _isDead: function() {
