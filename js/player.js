@@ -53,6 +53,14 @@ Crafty.c("Player", {
         enemy._setPosition(x,y);
     },
     _setDefenderPosition: function(position) {
+        if (this.has("2D")) {
+            this.removeComponent("2D");
+        }
+        if (this.has("Collision")) {
+            this.removeComponent("Collision");
+        }
+        this.addComponent("2D").attr({x: position.x, y: position.y, w: position.w, h: position.h});
+        this.addComponent("Collision").onHit("Enemy", this._onHitDefender);
         this._defenderPosition = position;
         return this;
     },
@@ -82,7 +90,13 @@ Crafty.c("Player", {
     _start: function() {
         for (var i=0; i < this._enemies.length; i++) {
             var en = this._enemies[i];
-            en._setTarget(this._defenderPosition.x+CELL_WIDTH/2, this._defenderPosition.y+CELL_HEIGHT/2);
+            en._start();
+        }
+    },
+    _onHitDefender: function() {
+        var enemies = this._getEnemiesInCell(this._defenderPosition);
+        for (var i=0; i < enemies.length; i++) {
+            enemies[i]._stop();
         }
     }
 });

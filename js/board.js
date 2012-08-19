@@ -33,7 +33,7 @@ Crafty.c("Cell", {
         {
             var TEXT_COLORS = [TEXT_COLOR_NORMAL];
             var index = this._type - CELL_TYPE_NORMAL;
-            if(!this.has("Text")) {
+            if (!this.has("Text")) {
                 this.addComponent("Text");
                 this.css({textAlign: 'center'});
                 this.textFont({size: '50px', family: 'Arial'});
@@ -41,11 +41,11 @@ Crafty.c("Cell", {
             this.textColor(TEXT_COLORS[index], 1);
             this.text(text);
         } else if (this._type == CELL_TYPE_DEFENDER) {
-            if(this.has("Text")) {
+            if (this.has("Text")) {
                 this.text(" ");
                 this.removeComponent("Text");
             }
-            if(this.has("Sprite")) {
+            if (this.has("Sprite")) {
                 this.removeComponent("Sprite");
             }
             this.addComponent("sprite_hero");

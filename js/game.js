@@ -22,6 +22,7 @@ Crafty.c("Game", {
         for (var i=0; i < numEnemies; i++) {
             var enemy = Crafty.e("Enemy");
             player._placeEnemy(enemy);
+            enemy._setTarget(defenderPosition.x+CELL_WIDTH/2, defenderPosition.y+CELL_HEIGHT/2);
             this._enemies[i] = enemy;
         }
         player._setEnemies(this._enemies);

@@ -20,12 +20,25 @@ Crafty.c("Enemy", {
         }
         return this;
     },
+    _start: function() {
+        if (this.has("Tween")) {
+            this.removeComponent("Tween");
+        }
+        this.addComponent("Tween");
+        this.tween({x: this._targetX, y: this._targetY}, this._speed);
+    },
+    _stop: function() {
+        if (this.has("Tween")) {
+            this.removeComponent("Tween");
+        }
+    },
     _setPosition: function(x, y) {
         this.attr({x: x, y: y});
         return this;
     },
     _setTarget: function(x, y) {
-        this.tween({x: x, y: y}, this._speed);
+        this._targetX = x;
+        this._targetY = y;
         return this;
     },
     _hit: function() {
