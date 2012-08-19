@@ -10,6 +10,8 @@ var BOARD_WIDTH  = BOARD_COLS*CELL_WIDTH,
 var CELL_TYPE_NORMAL = 0,
     CELL_TYPE_DEFENDER = 1;
 
+var CELL_COLOR_NORMAL = '#00FF00';
+
 var TEXT_COLOR_NORMAL = '#000000';
 
 var BOARD_LETTERS = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -18,14 +20,14 @@ var BOARD_LETTERS = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O"
 // This way it will be easier to search cells
 Crafty.c("Cell", {
     init: function() {
-        this.addComponent("2D, DOM");
-        this.attr({w:CELL_WIDTH, h:CELL_HEIGHT});
+        this.addComponent("2D, DOM, Color");
     },
     _type: CELL_TYPE_NORMAL,
     _sprite_initialized: false,
     _makeCell: function(x, y, type, text) {
         this.attr({x: x, y: y});
         this._type = type;
+        this.color(CELL_COLOR_NORMAL);
 
         if (this._type == CELL_TYPE_NORMAL)
         {
@@ -48,7 +50,7 @@ Crafty.c("Cell", {
             }
             this.addComponent("sprite_hero");
         }
-        new Crafty.polygon([0,0],[10,10],[0,10]);
+        this.attr({w:CELL_WIDTH, h:CELL_HEIGHT});
         return this;
     },
     _isSame: function(cell) {
