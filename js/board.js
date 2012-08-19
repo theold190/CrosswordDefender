@@ -63,12 +63,7 @@ Crafty.c("Cell", {
         this._makeCell(this.x, this.y, CELL_TYPE_DEFENDER, this.text());
     },
     _isInsideCell: function(x, y) {
-        if (this.x <= x && this.x+this.w > x) {
-            if (this.y <= y && this.y+this.h > y) {
-                return true;
-            }
-        }
-        return false;
+        return this.within(x, y, 1, 1);
     },
     _isAssignedKey: function(key) {
         if (key == Crafty.keys[this._text]) {
@@ -125,22 +120,40 @@ Crafty.c("Board", {
         return cell;
     },
     _getCell: function(x, y) {
-        for (i in this._board) {
-            for (i in this._board[i]) {
+        for (var i=0; i < this._board.length; i++) {
+            for (var j=0; j < this._board[i].length; j++) {
                 if(this._board[i][j]._isInsideCell(x,y)) {
                     return this._board[i][j];
                 }
             }
         }
     },
+    _getCellsByType: function(type) {
+        var cells = [];
+        var counter = 0;
+        for (var i=0; i < this._board.length; i++) {
+            for (var j=0; j < this._board[i].length; j++) {
+                var tmpCell = this._board[i][j];
+                if (tmpCell._type == type) {
+                    cells[counter] = tmpCell;
+                    counter++;
+                }
+            }
+        }
+        return cells;
+    },
     _getCellsByKey: function(key) {
         var cells = [];
         var counter = 0;
-        for (i in this._board) {
-            for (j in this._board[i]) {
-                if(this._board[i][j]._isAssignedKey(key)) {
-                    cells[counter] = this._board[i][j];
-                    counter++;
+        for (var i=0; i < this._board.length; i++) {
+            for (var j=0; j < this._board[i].length; j++) {
+                if (this._board[i][j]._isAssignedKey(key)) {
+                    if (this._board[i][j]._type == CELL_TYPE_NORMAL) {
+                        cells[counter] = this._board[i][j];
+                        counter++;
+                    } else if (this._board[i][j]._type == CELL_TYPE_DEFENDER) {
+                        return this._getCellsByType(CELL_TYPE_NORMAL);
+                    }
                 }
             }
         }
@@ -151,16 +164,6 @@ Crafty.c("Board", {
         {
             var newKey = Crafty.math.randomElementOfArray(BOARD_LETTERS);
             cell._makeCell(cell.x, cell.y, CELL_TYPE_NORMAL, newKey);
-        } else if (cell._type == CELL_TYPE_DEFENDER) {
-            for (i in this._board) {
-                for (j in this._board[i]) {
-                    var tmpCell = this._board[i][j];
-                    if(tmpCell._type == CELL_TYPE_NORMAL) {
-                        var newKey = Crafty.math.randomElementOfArray(BOARD_LETTERS);
-                        tmpCell._makeCell(tmpCell.x, tmpCell.y, CELL_TYPE_NORMAL, newKey);
-                    }
-                }
-            }
         }
     },
     _getCellOnTop: function(x, y) {

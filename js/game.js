@@ -20,24 +20,15 @@ Crafty.c("Game", {
         var numEnemies = Crafty.math.randomInt(NUMBER_OF_ENEMIES_MIN, NUMBER_OF_ENEMIES_MAX);
 
         for (var i=0; i < numEnemies; i++) {
-            var x = 0, y = 0, badPosition = true;
-            while(badPosition) {
-                x = Crafty.math.randomInt(BOARD_LEFT, BOARD_WIDTH-ENEMY_WIDTH);
-                y = Crafty.math.randomInt(BOARD_TOP, BOARD_HEIGHT-ENEMY_HEIGHT);
-
-                badPosition = defenderPosition._isInsideCell(x, y)
-                    || defenderPosition._isInsideCell(x+ENEMY_WIDTH, y+ENEMY_HEIGHT)
-                    || defenderPosition._isInsideCell(x, y+ENEMY_HEIGHT)
-                    || defenderPosition._isInsideCell(x+ENEMY_WIDTH, y);
-            }
-
-            var enemy = Crafty.e("Enemy")._setPosition(x, y);
+            var enemy = Crafty.e("Enemy");
+            player._placeEnemy(enemy);
             this._enemies[i] = enemy;
         }
+        player._setEnemies(this._enemies);
     },
     _clearAll: function() {
         var items = Crafty('2D');
-        for (i in items) {
+        for (var i=0; i < items.length; i++) {
             Crafty(items[i]).destroy();
         }
     }
