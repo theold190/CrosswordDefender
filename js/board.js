@@ -69,11 +69,13 @@ Crafty.c("Cell", {
         if (key == Crafty.keys[this._text]) {
             return true;
         }
-        if ((this._type == CELL_TYPE_DEFENDER)
-            && (key == Crafty.keys['SPACE']
-                || key == Crafty.keys['ENTER']))
-        {
-            return true;
+        if (DEBUG != 0) {
+            if ((this._type == CELL_TYPE_DEFENDER)
+                && (key == Crafty.keys['SPACE']
+                    || key == Crafty.keys['ENTER']))
+            {
+                return true;
+            }
         }
         return false;
     }

@@ -70,6 +70,7 @@ Crafty.c("Enemy", {
     },
     _hit: function() {
         this._health--;
+        // Special handling of a psycho type
         if (this._type == ENEMY_TYPE_PSYCHO) {
             this._stop();
             this._setType(ENEMY_TYPE_ULTRAFAST);
