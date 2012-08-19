@@ -61,5 +61,11 @@ Crafty.c("Player", {
                 i--;
             }
         }
+    },
+    _start: function() {
+        for (var i=0; i < this._enemies.length; i++) {
+            var en = this._enemies[i];
+            en._setTarget(this._defenderPosition.x+CELL_WIDTH/2, this._defenderPosition.y+CELL_HEIGHT/2);
+        }
     }
 });

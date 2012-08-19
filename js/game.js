@@ -25,6 +25,7 @@ Crafty.c("Game", {
             this._enemies[i] = enemy;
         }
         player._setEnemies(this._enemies);
+        player._start();
     },
     _clearAll: function() {
         var items = Crafty('2D');
