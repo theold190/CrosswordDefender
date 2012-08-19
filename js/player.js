@@ -1,5 +1,6 @@
 Crafty.c("Player", {
     init: function() {
+        this._enemies = [];
         this.bind('KeyDown', function(e) {
             this._parseKeyPress(e.key);
         });
@@ -22,6 +23,14 @@ Crafty.c("Player", {
     _setBoard: function(board) {
         this._board = board;
         return this;
+    },
+    _generateEnemies: function(numEnemies) {
+        for (var i=0; i < numEnemies; i++) {
+            var enemy = Crafty.e("Enemy");
+            this._placeEnemy(enemy);
+            enemy._setTarget(this._defenderPosition.x+CELL_WIDTH/2, this._defenderPosition.y+CELL_HEIGHT/2);
+            this._enemies.push(enemy);
+        }
     },
     _setEnemies: function(enemies) {
         this._enemies = enemies;
@@ -85,6 +94,10 @@ Crafty.c("Player", {
                 this._enemies.splice(i,1);
                 i--;
             }
+        }
+        if (this._enemies.length === 0) {
+            var game = Crafty(CRAFTY_GAME_ID);
+            game._waveIsCompleted();
         }
     },
     _start: function() {

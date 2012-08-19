@@ -18,7 +18,9 @@
         initCrafty();
 
         DEBUG=qsParm['debug'] != 0;
-        var game = Crafty.e("Game")._startGame();
+        var game = Crafty.e("Game");
+        CRAFTY_GAME_ID = game[0];
+        game._startGame();
     });
   </script>
 </body>

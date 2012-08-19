@@ -14,7 +14,7 @@ Crafty.c("Enemy", {
     _setType: function(type) {
         this._type = type;
         if (this._type == ENEMY_TYPE_BASIC) {
-            this._health = 3;
+            this._health = 1;
             this.color(ENEMY_COLOR_BASIC);
             this._speed = 800;
         }
